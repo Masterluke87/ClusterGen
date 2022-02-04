@@ -1,2 +1,2 @@
 # ClusterGen
-Script collection to generate low energy cluster via Genetic Algorithm and XTB
+Script collection to generate low energy clusters via Genetic Algorithm and XTB
