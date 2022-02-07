@@ -1,9 +1,7 @@
 import argparse
 from random import random
 from ase.io import read
-from ase.calculators.calculator import FileIOCalculator, Parameters, ReadError
 import numpy as np
-from ase.visualize import view
 from ase.atoms import Atoms
 from ase.ga.population import Population
 from ase.ga.data import DataConnection,PrepareDB
@@ -11,18 +9,15 @@ from ase.ga.startgenerator import StartGenerator
 from ase.ga.utilities import closest_distances_generator
 from ase.ga.utilities import get_all_atom_types
 from ase.ga.offspring_creator import OperationSelector
-from ase.ga.standardmutations import MirrorMutation
-from ase.ga.standardmutations import RattleMutation
+from ase.ga.standardmutations import MirrorMutation,RattleMutation,PermutationMutation
 from ase.ga.standard_comparators import InteratomicDistanceComparator
 from ase.ga.cutandsplicepairing import CutAndSplicePairing
-from ase.ga.standardmutations import PermutationMutation
 from ase.constraints import FixAtoms
 from ase.optimize import BFGS
 from ase.io import read,write
 from ase.atoms import Atoms
 import os,sys
 from util.XTBRunner import XTB
-import pdb
 
 logG = lambda x: print("\033[92m"+x+"\033[00m")
 logR = lambda x: print("\033[91m"+x+"\033[00m")
@@ -205,6 +200,39 @@ def mutateAndAdd(args):
             da.kill_candidate(a3.info["confid"])
 
     logG(f"Done adding {counter-1} new candidates!")
+    return True
+
+def getStatistics(args):
+    logH2("--> getStatistics")
+
+
+    da = DataConnection(args.database)
+    popSize = da.get_param("population_size")
+    
+    comp = InteratomicDistanceComparator(n_top=len(da.get_atom_numbers_to_optimize()),
+                                        pair_cor_cum_diff=0.015,
+                                        pair_cor_max=0.7,
+                                        dE=0.02,
+                                        mic=False)
+    population = Population(data_connection=da,
+                            population_size=popSize,
+                            comparator=comp)
+
+
+    print(f"# Generations         : {da.get_generation_number()}")
+    print(f"# relaxed candidates  : {len(da.get_all_relaxed_candidates())}")
+    print(f"Populations size:     : {popSize} ")
+
+    if popSize<5:
+        printSize=popSize
+    else:
+        printSize=5
+
+    for i in range(1,da.get_generation_number()+1):
+        print(str("{:3d} "+" {:3d}"*printSize+" {:12.6f}"*printSize).format(i,
+                                *[x.info["confid"] for x in population.get_population_after_generation(i)][:printSize],
+                                *[-x.info["key_value_pairs"]["raw_score"] for x in population.get_population_after_generation(i)][:printSize]))    
+
 
 if __name__ == "__main__":
     args = runTheParser()
@@ -226,14 +254,15 @@ if __name__ == "__main__":
         if generateNewDatabase(args):
             logG("--| New Database sucessfully created!")
             if mutateAndAdd(args):
-                pass
+                getStatistics(args)
         else:
             logR("--| Something went wrong!")
             sys.exit()
     else:
         print("--| Cluster file exists, we will just add candidates")
         if mutateAndAdd(args):
-            pass
+            getStatistics(args)
+            
 
 
 
