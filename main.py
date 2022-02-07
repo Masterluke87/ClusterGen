@@ -249,6 +249,9 @@ if __name__ == "__main__":
     print(f"# of Generations  : {args.generations}")
     print("\n")
 
+    if not os.getenv("XTB_PATH"):
+        logR("Please set the XTB_PATH to point to the xtb directory")
+        sys.exit()
 
     if not os.path.isfile(args.database):
         if generateNewDatabase(args):

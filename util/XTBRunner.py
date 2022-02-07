@@ -17,14 +17,18 @@ class XTB(FileIOCalculator):
 
     def __init__(self, restart=None, label ="tmp/XTB", atoms=None, **kwargs):
         FileIOCalculator.__init__(self, restart=restart,label=label, atoms=atoms, **kwargs)
-        FileIOCalculator.set_label(self, label)  
+        FileIOCalculator.set_label(self, label)
+
+        self.xtbPath = os.getenv("XTB_PATH")  
 
     def write_input(self,atoms,properties=None, system_changes=None):
         FileIOCalculator.write_input(self, atoms)
         write(self.directory+"/xtbinput.xyz",atoms)
         f = open(self.directory+"/runxtb.sh","w")
         f.write("#!/bin/bash \n")
-        f.write("~/Downloads/xtb-6.4.1/bin/xtb xtbinput.xyz --gfn 1 --uhf {} --chrg {} --opt normal --cycles {} > XTBOUT".format(self.parameters["mult"]-1,self.parameters["charge"], self.parameters["cycles"]))
+        f.write("{}/bin/xtb xtbinput.xyz --gfn 1 --uhf {} --chrg {} --opt normal --cycles {} > XTBOUT".format(self.xtbPath,
+                                                                                                              self.parameters["mult"]-1,
+                                                                                                              self.parameters["charge"], self.parameters["cycles"]))
         f.close()
 
         st = os.stat(self.directory+"/runxtb.sh")
