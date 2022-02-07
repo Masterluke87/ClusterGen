@@ -89,8 +89,10 @@ def generateNewDatabase(args):
     Let's start
     with some more candidates
     """
-    for a in [sg.get_new_candidate() for i in range(int(population_size*1.5))]:
+    print("--| Generating starting candidates")
+    for c,a in enumerate([sg.get_new_candidate() for i in range(int(population_size*1.5))]):
         d.add_unrelaxed_candidate(a)
+        logG(f"--| #{c+1} candidate added")
 
     print(f"--| {int(population_size*1.5)} random start candidates added")
 
