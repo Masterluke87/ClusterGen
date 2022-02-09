@@ -10,7 +10,7 @@ logH2 = lambda x: print("\n" +x+"\n"+"-"*len(x)+"\n")
 
 def write_xyz(fileobj, images, comment='', fmt='%22.15f'):
     """
-    Shameless copy from ASE project
+    Shameless copy from ASE project to add the energy to the comment line
     """
     comment = comment.rstrip()
     if '\n' in comment:
@@ -47,7 +47,6 @@ def getStatistics(args):
         printSize=popSize
     else:
         printSize=5
-
     if args.number is not None:
         printSize=int(args.number)
 
@@ -61,8 +60,11 @@ def getStatistics(args):
 
 def exportOrViewCandidates(args):
     logH2("--> Export")
-
-    print(f"#Exporting {int(args.number)} candidates.")
+    if (args.export):   
+        print(f"#Exporting {int(args.number)} candidates.")
+    if (args.export):   
+        print(f"#Viewing {int(args.number)} candidates.")
+    
 
 
     da = DataConnection(args.database)
