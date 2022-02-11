@@ -235,14 +235,14 @@ if __name__ == "__main__":
         if generateNewDatabase(args):
             logG("--| New Database sucessfully created!")
             if mutateAndAdd(args):
-                getStatistics(args)
+                logG("--| Mutate and Add sucessful!")
         else:
             logR("--| Something went wrong!")
             sys.exit()
     else:
         print("--| Cluster file exists, we will just add candidates")
         if mutateAndAdd(args):
-            getStatistics(args)
+            logG("--| Mutate and Add sucessful!")
             
 
 
