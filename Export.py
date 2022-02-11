@@ -15,6 +15,8 @@ def runTheParser():
     optional.add_argument("-S","--statistics",action='store_true', help="Show statistics")
     optional.add_argument("-e","--export",action='store_true', help="Export the lowest n candidates of a population")
     optional.add_argument("-v","--view",action='store_true', help="View lowest n candidates in ASE gui window")
+    optional.add_argument("-t","--template",metavar="template"  ,default="PBE-OPT", help="View lowest n candidates in ASE gui window")
+    optional.add_argument("-p","--prog"    ,metavar="QM-program",default="ORCA", help="View lowest n candidates in ASE gui window")
     required.add_argument('-db','--database', metavar='DB',default="cluster.db", type=str,
                 help='Sqlite database to handle the structures') 
     required.add_argument('-n','--number', metavar='num',default=5, type=str, required=True,
@@ -27,7 +29,7 @@ if __name__ == "__main__":
     args = runTheParser()
 
     
-    print("\nClusterGen -- Export\n"+"="*len("ClusterGen -- Export")+"\n")
+    print("\nClusterGen -- Export,View & Statistics\n"+"="*len("ClusterGen -- Export,View & Statistics")+"\n")
     args = runTheParser()
 
     if args.statistics:
