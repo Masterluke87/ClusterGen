@@ -209,7 +209,7 @@ if __name__ == "__main__":
     args = runTheParser()
 
     
-    print("\nClusterGen\n"+"="*len("ClusterGen")+"\n")
+    print("\nClusterGen -- Generate & Mutate\n"+"="*len("ClusterGen -- Generate & Mutate")+"\n")
     logH2("User Input:")
     print(f"Empirical Formula : {args.formula} ")
     print(f"Charge            : {args.charge} ")
