@@ -7,7 +7,7 @@ def QMTemplates(prog = "ORCA", template="PBE-OPT",fp="./",coord="abc.xyz",charge
             f.write("!PBE def2-TZVP OPT UNO\n")
             f.write("!SLOWCONV\n\n")
 
-            f.write(f"*xyzfile {coord} {charge} {mult}")
+            f.write(f"*xyzfile {charge} {mult}  {coord}")
             f.close()
 
             return True
