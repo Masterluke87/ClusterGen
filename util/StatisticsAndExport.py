@@ -42,7 +42,7 @@ def getStatistics(args):
         printSize=popSize
     else:
         printSize=5
-    if args.number is not None:
+    if "number" in args:
         printSize=int(args.number)
 
 

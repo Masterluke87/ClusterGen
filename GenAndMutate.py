@@ -35,9 +35,9 @@ def runTheParser():
     parser._action_groups.pop()
     required = parser.add_argument_group('required arguments')
     optional = parser.add_argument_group('optional arguments')
-    optional.add_argument('-c','--charge', metavar='Charge',default=0, type=int,
+    optional.add_argument('-c','--charge', metavar='Charge', type=int,
                 help='Defines the charge of your cluster')       
-    optional.add_argument('-m','--mult', metavar='Mult',default=1, type=int,
+    optional.add_argument('-m','--mult', metavar='Mult', type=int,
                 help='Set the multiplicty of the target cluster')
     optional.add_argument('-p','--population', metavar='nPOP',default=20, type=int,
                 help='Size of the Population')
@@ -47,12 +47,17 @@ def runTheParser():
                 help='Number of Generations that should be generated.')                      
     optional.add_argument('-l','--length', metavar=' [Angstrom] ',default="12.0", type=float,
                 help='Size of the cubic simulation cell in Angstrom')          
-    optional.add_argument('-F','--formula', metavar='Formula',default="", type=str, required=True,
+    optional.add_argument('-F','--formula', metavar='Formula', type=str, 
                 help='Set empirical formula for the target cluster, eg. Ag12 or Pd16FeCl2 or anything reasonable')
     return parser.parse_args()
 
 def generateNewDatabase(args):
     logH2("-->generateNewDatabase")
+
+    if (args.formula is None) or (args.charge is None) or (args.mult is None):
+        logR("Please provide a Formula, Charge and Multiplicity")
+        sys.exit()
+   
 
     try:
         cluster = Atoms(args.formula)
@@ -129,12 +134,14 @@ def mutateAndAdd(args):
     charge = da.get_param("charge")
     population_size = da.get_param("population_size")
 
-    if (mult != args.mult):
+    if (args.mult is not None) and (mult != args.mult):
         print(f"--| Note, Input mult: {args.mult} != database mult: {mult}. Using database value")
-    if (charge != args.charge):
+    if (args.charge is not None) and (charge != args.charge):
         print(f"--| Note, Input charge: {args.charge} != database charge: {charge}. Using database value")
-    if (population_size != args.population):
+    if (args.population is not None) and (population_size != args.population):
         print(f"--| Note, Input pop: {args.population} != database charge: {population_size}. Using database value")
+    if args.formula is not None:
+        print("--| You provided a formula, but the database exists already -> will be ignored")
 
     mutation_probability = 0.3
 
