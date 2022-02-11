@@ -95,12 +95,11 @@ def exportOrViewCandidates(args):
         print(f"--| # Generations         : {da.get_generation_number()}")
         print(f"--| # relaxed candidates  : {len(da.get_all_relaxed_candidates())}")
         print(f"--| Populations size:     : {popSize} ")
-        print(f"--| PathToDatabase: {PathToDatabase}")
-        print(f"--| Prefix        : {Prefix}")
-        print(f"--| QM Program    : {calcProg} ")
-        print(f"--| QM Template   : {calcTemplate} ")
+        print(f"--| PathToDatabase        : {PathToDatabase}")
+        print(f"--| Prefix                : {Prefix}")
+        print(f"--| QM Program            : {calcProg} ")
+        print(f"--| QM Template           : {calcTemplate} ")
         
-
 
         if not os.path.exists(PathToDatabase+"/"+Prefix):
             os.mkdir(PathToDatabase+"/"+Prefix)
