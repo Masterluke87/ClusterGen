@@ -234,16 +234,19 @@ if __name__ == "__main__":
     if not os.path.isfile(args.database):
         if generateNewDatabase(args):
             logG("--| New Database sucessfully created!")
-            if mutateAndAdd(args):
-                logG("--| Mutate and Add sucessful!")
+            if (args.generations>0):
+                if mutateAndAdd(args):
+                    logG("--| Mutate and Add sucessful!")
         else:
             logR("--| Something went wrong!")
             sys.exit()
     else:
         print("--| Cluster file exists, we will just add candidates")
-        if mutateAndAdd(args):
-            logG("--| Mutate and Add sucessful!")
-            
+        if (args.generations>0):
+            if mutateAndAdd(args):
+                logG("--| Mutate and Add sucessful!")
+        else:
+            logR("Nothing to add")
 
 
 
