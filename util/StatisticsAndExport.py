@@ -34,10 +34,10 @@ def getStatistics(args):
                             comparator=comp)
 
 
-    print(f"# Generations         : {da.get_generation_number()}")
-    print(f"# relaxed candidates  : {len(da.get_all_relaxed_candidates())}")
-    print(f"Populations size:     : {popSize} ")
-
+    print(f"--| # Generations         : {da.get_generation_number()}")
+    print(f"--| # relaxed candidates  : {len(da.get_all_relaxed_candidates())}")
+    print(f"--| Populations size:     : {popSize} ")
+ 
     if popSize<5:
         printSize=popSize
     else:
@@ -91,7 +91,10 @@ def exportOrViewCandidates(args):
         
         calcTemplate=args.template
         calcProg = args.prog
-
+        
+        print(f"--| # Generations         : {da.get_generation_number()}")
+        print(f"--| # relaxed candidates  : {len(da.get_all_relaxed_candidates())}")
+        print(f"--| Populations size:     : {popSize} ")
         print(f"--| PathToDatabase: {PathToDatabase}")
         print(f"--| Prefix        : {Prefix}")
         print(f"--| QM Program    : {calcProg} ")
