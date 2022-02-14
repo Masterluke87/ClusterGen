@@ -102,7 +102,7 @@ def generateNewDatabase(args):
         d.add_unrelaxed_candidate(a)
         logG(f"--| #{c+1} candidate added")
 
-    print(f"--| {int(population_size*1.5)} random start candidates added")
+    print(f"--| {int(population_size*args.factor)} random start candidates added")
 
     counter=0
     for a in [x for x in da.get_all_unrelaxed_candidates() if x.info["key_value_pairs"]["extinct"]==0]:
