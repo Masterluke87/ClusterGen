@@ -44,7 +44,9 @@ def runTheParser():
     optional.add_argument('-db','--database', metavar='DB',default="cluster.db", type=str,
                 help='Sqlite database to handle the structures') 
     optional.add_argument('-g','--generations', metavar='nGens',default=0, type=int,
-                help='Number of Generations that should be generated.')                      
+                help='Number of Generations that should be generated.')  
+    optional.add_argument('-f','--factor', metavar='startFactor',default=1.5, type=float,
+                help='A factor that will x which corresponds to the number of additional starting candidates')                                  
     optional.add_argument('-l','--length', metavar=' [Angstrom] ',default="12.0", type=float,
                 help='Size of the cubic simulation cell in Angstrom')          
     optional.add_argument('-F','--formula', metavar='Formula', type=str, 
@@ -96,7 +98,7 @@ def generateNewDatabase(args):
     with some more candidates
     """
     print("--| Generating starting candidates")
-    for c,a in enumerate([sg.get_new_candidate() for i in range(int(population_size*1.5))]):
+    for c,a in enumerate([sg.get_new_candidate() for i in range(int(population_size*args.factor))]):
         d.add_unrelaxed_candidate(a)
         logG(f"--| #{c+1} candidate added")
 
