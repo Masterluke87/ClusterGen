@@ -36,6 +36,8 @@ def getStatistics(args):
 
     print(f"--| Database              : {args.database}")
     print(f"--| Stoichiometry         : {da.get_param('stoichiometry')}")
+    print(f"--| Charge                : {da.get_param('charge')}")
+    print(f"--| Multiplicity          : {da.get_param('mult')}")
     print(f"--| Formula               : {Atoms(da.get_param('stoichiometry')).symbols}")
     print(f"--| # Generations         : {da.get_generation_number()}")
     print(f"--| # relaxed candidates  : {len(da.get_all_relaxed_candidates())}")
