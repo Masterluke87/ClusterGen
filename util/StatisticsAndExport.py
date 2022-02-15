@@ -2,6 +2,7 @@ from ase.ga.data import DataConnection
 from ase.ga.standard_comparators import InteratomicDistanceComparator
 from ase.ga.population import Population
 from ase.visualize import view
+from ase.atoms import Atoms
 from templates.QM import QMTemplates
 import os
 
@@ -33,10 +34,12 @@ def getStatistics(args):
                             population_size=popSize,
                             comparator=comp)
 
-
+    print(f"--| Database              : {args.database}")
+    print(f"--| Stoichiometry         : {da.get_param('stoichiometry')}")
+    print(f"--| Formula               : {Atoms(da.get_param('stoichiometry')).symbols}")
     print(f"--| # Generations         : {da.get_generation_number()}")
     print(f"--| # relaxed candidates  : {len(da.get_all_relaxed_candidates())}")
-    print(f"--| Populations size:     : {popSize} ")
+    print(f"--| Populations size:     : {popSize}\n\n")
  
     if popSize<5:
         printSize=popSize
@@ -44,8 +47,6 @@ def getStatistics(args):
         printSize=5
     if "number" in args:
         printSize=int(args.number)
-
-
 
     for i in range(1,da.get_generation_number()+1):
         print(str("{:4d} "+" {:4d}"*printSize+" {:12.6f}"*printSize).format(i,
