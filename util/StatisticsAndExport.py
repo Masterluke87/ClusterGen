@@ -50,10 +50,19 @@ def getStatistics(args):
     if "number" in args:
         printSize=int(args.number)
 
+
+    Energies = [] 
     for i in range(1,da.get_generation_number()+1):
         print(str("{:4d} "+" {:4d}"*printSize+" {:12.6f}"*printSize).format(i,
                                 *[x.info["confid"] for x in population.get_population_after_generation(i)][:printSize],
-                                *[-x.info["key_value_pairs"]["raw_score"] for x in population.get_population_after_generation(i)][:printSize]))    
+                                *[-x.info["key_value_pairs"]["raw_score"] for x in population.get_population_after_generation(i)][:printSize])) 
+        Energies.append([-x.info["key_value_pairs"]["raw_score"] for x in population.get_population_after_generation(i)][:printSize])
+
+    for i in range(printSize):
+        cMin = min([x[i] for x in Energies[-5:]])
+        cMax = max([x[i] for x in Energies[-5:]])
+        print("{:12.8f}, {:s}".format(abs(cMin-cMax), "Converged" if abs(cMin-cMax)<0.05 else "Not Converged"))
+
 
 
 def exportOrViewCandidates(args):
