@@ -5,7 +5,8 @@ def QMTemplates(prog = "ORCA", template="PBE-OPT",fp="./",coord="abc.xyz",charge
             f = open(fp+"/pbe.inp","w")
             f.write(f"%pal nprocs {procs} end \n\n")
             f.write("!PBE def2-TZVP OPT UNO\n")
-            f.write("!SLOWCONV\n\n")
+            f.write("!SLOWCONV KDIIS \n\n")
+            f.write("%geom maxiter 300 end\n\n")
 
             f.write(f"*xyzfile {charge} {mult} {coord} ")
             f.close()
